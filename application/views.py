@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def projects(request):
-    return HttpResponse("These are the projects.")
+    return render(request, 'application/projects.html')
 
 def project(request, pk):
-    return HttpResponse("Single project " + " " + str(pk))
+    return render(request, 'application/single__project.html')
