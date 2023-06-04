@@ -7,7 +7,7 @@ class Project (models.Model):
     description = models.TextField(blank = True, null = True)
     demo_link = models.CharField(max_length=2000, blank = True, null = True)
     source_link = models.CharField(max_length = 2000, blank = True, null = True)
-    tags = models.ManyToManyField('Tag', blank = True)
+    tags = models.ManyToManyField('Tag', blank = True)  # it lets user select content of Tag table.
     vote_total = models.IntegerField(default = 0, null = True, blank = True)
     vote_ratio = models.IntegerField(default = 0, null = True, blank = True)
     created = models.DateTimeField(auto_now_add=True)
@@ -17,15 +17,17 @@ class Project (models.Model):
         return self.title
 
 class Review(models.Model):
+    # let the user vote
     VOTE_TYPE = (
         ('up', 'Up Vote'),
         ('down', 'Down Vote')
     )
-    project = models.ForeignKey('Project', on_delete=models.CASCADE)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE) # user can select the project which they want to review
     body = models.TextField(blank=True, null = True)
     value = models.CharField(max_length = 20, choices=VOTE_TYPE)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable = False)
+    id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable = False) # generate a random UUID as the default value.
+    # UUID are used to identify records in a database.
 
     def __str__(self):
         return self.value
