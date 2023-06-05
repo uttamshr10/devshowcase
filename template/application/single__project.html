@@ -1,4 +1,14 @@
 {% extends 'application/main.html' %}
+
+
 {% block content %}
-<h1>Single Project Test</h1>
-{% endblock content %}
+<h1>{{project.title}}</h1>
+<hr>
+{% for tag in project.tags.all %}
+<span style="border: 2px solid grey;">{{tag}}</span>
+{% endfor %}
+<hr>
+<br>
+<p>{{project.description}}</p>
+
+{% endblock %}

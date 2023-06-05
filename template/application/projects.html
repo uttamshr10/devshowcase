@@ -1,7 +1,24 @@
 {% extends 'application/main.html' %}
 {% block content %}
-<h1>These are projects.</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-    Necessitatibus magni, nostrum harum dolorum repellendus voluptas consequuntur eum consectetur, commodi incidunt maxime qui! 
-    Consequatur similique facilis quia quod harum pariatur totam.</p>
+<h1>Projects</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Project</th>
+        <th>Positive Votes</th>
+        <th>Total Votes</th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for project in projects %}
+    <tr>
+        <td>{{project.id}}</td>
+        <td>{{project.title}}</td>
+        <td>{{project.vote_ratio}}%</td>
+        <td>{{project.vote_ratio}}</td>
+        <td>{{project.created}}</td>
+        <td><a href=" {% url 'project' project.pk %} ">View</a></td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock content %}
