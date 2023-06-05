@@ -4,7 +4,7 @@
 {% block content %}
 <h1>{{project.title}}</h1>
 <hr>
-{% for tag in project.tags.all %}
+{% for tag in project.tags.all %}   <!-- Check single project all tags from (views.py) - project function - project context -->
 <span style="border: 2px solid grey;">{{tag}}</span>
 {% endfor %}
 <hr>

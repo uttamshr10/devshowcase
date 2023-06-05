@@ -1,0 +1,15 @@
+{% extends 'application/main.html' %}
+
+{% block content %}
+
+<h1>Project Form</h1>
+<form method="POST">
+    {% csrf_token %}
+    <!-- {{form}} -->
+    {{form.as_p}}
+    <!-- {{form.title.label}}
+    {{form.title}} -->
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock content %}
