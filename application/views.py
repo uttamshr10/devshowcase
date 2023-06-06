@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
 from . import forms
-# from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 # Create your views here.
-def projects(request):
+def projects(request):  # list view
     projects = models.Project.objects.all() # quering all the projects and storing in projects
     context = {'projects': projects}
     return render(request, 'application/projects.html', context)
 
-def project(request, pk):
+def project(request, pk):   # detail view
     projectObj = models.Project.objects.get(id=pk) # retrieve single project object from the db using it's pk.
     context = {
         'project': projectObj
@@ -18,7 +18,7 @@ def project(request, pk):
     return render(request, 'application/single__project.html', context)
 
 
-def createProject(request):
+def createProject(request):     # create view
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
         form = forms.ProjectForm(request.POST)  # when the request is POST take the form to accept POST request.  
@@ -30,7 +30,7 @@ def createProject(request):
     }
     return render(request, 'application/project__form.html', context)
 
-def updateProject(request, pk):
+def updateProject(request, pk): # update view
     project = models.Project.objects.get(pk=pk) # retrieve single project object from the db using it's pk.
     form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
     if request.method == 'POST':    # if the method is POST
@@ -42,7 +42,7 @@ def updateProject(request, pk):
     return render(request, 'application/project__form.html', context)
 
 
-def deleteProject(request, pk):
+def deleteProject(request, pk): # delete view
     project = models.Project.objects.get(pk=pk)
     if request.method == 'POST':
         project.delete()    # deletes the project from the database.
@@ -61,6 +61,20 @@ def deleteProject(request, pk):
 #     fields = ['title', 'description', 'demo_link', 'source_link', 'tags']   # only take these views.
 #     success_url = 'projects'        # after succesfully submission of form head over to this url.
 
+# List View
+
+# class ListProject(ListView):
+#     model = models.Project
+#     template_name = 'application/projects.html' # head over to this template to view list of all the projects
+#     context_object_name = 'projects'    # name of object as projects
+
+# Detail View
+
+# class DetailProject(DetailView):
+#     model = models.Project
+#     template_name = 'application/single__project.html'  # head over to this template to view the project in detail.
+     
+
 # Update View
 
 # class UpdateProject(UpdateView):
@@ -70,6 +84,7 @@ def deleteProject(request, pk):
 #     success_url = '/projects'
 
 # Delete View
+
 # class DeleteProject(DeleteView):
 #     template_name = 'application/confirm__delete.html'
 #     success_url = '/projects'

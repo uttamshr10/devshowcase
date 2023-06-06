@@ -10,6 +10,8 @@ urlpatterns=[
 
     # CRUD OPERATION WITH GENERIC VIEWS.
     # path("create-project", views.CreateProject.as_view(), name = 'create'),
+    # path("projects/", views.ListProject.as_view(), name='projects'),
+    # path("project/<str:pk>/", views.DetailProject.as_view(), name = 'project'),
     # path("update-project/<str:pk>/", views.UpdateProject.as_view(), name='update'),
     # path("delete-project/<str:pk>/", views.DeleteProject.as_view(), name = 'delete'),
 ]
