@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
 from . import forms
-
+# from django.views.generic import CreateView, UpdateView, DeleteView
 
 # Create your views here.
 def projects(request):
@@ -11,15 +11,65 @@ def projects(request):
     return render(request, 'application/projects.html', context)
 
 def project(request, pk):
-    projectObj = models.Project.objects.get(id=pk) # single project should match with it's id.
+    projectObj = models.Project.objects.get(id=pk) # retrieve single project object from the db using it's pk.
     context = {
         'project': projectObj
     }
     return render(request, 'application/single__project.html', context)
 
+
 def createProject(request):
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
+    if request.method == 'POST':    # first checks whether the request is POST or not.
+        form = forms.ProjectForm(request.POST)  # when the request is POST take the form to accept POST request.  
+        if form.is_valid():     # checks if the form is valid
+            form.save()     # save the instance to the database if the form is valid.
+            return redirect('projects') # redirect to projects url after saving the form.
     context = {
         'form': form    # form will be used in templates to create a form.
     }
     return render(request, 'application/project__form.html', context)
+
+def updateProject(request, pk):
+    project = models.Project.objects.get(pk=pk) # retrieve single project object from the db using it's pk.
+    form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
+    if request.method == 'POST':    # if the method is POST
+        form = forms.ProjectForm(request.POST, instance = project) # with POST request prepopulate the data.
+        if form.is_valid:
+            form.save()
+            return redirect('projects')
+    context = {'form': form}
+    return render(request, 'application/project__form.html', context)
+
+
+def deleteProject(request, pk):
+    project = models.Project.objects.get(pk=pk)
+    if request.method == 'POST':
+        project.delete()    # deletes the project from the database.
+        return redirect('projects')
+    context = {'object': project}   # project is defined as object variable which can be used to identify the project in confirm__delete
+    return render(request, 'application/confirm__delete.html', context)
+
+
+# CRUD OPERATION With Generic Views, we can directly create forms without creating forms.py with generic views.
+
+# Create View
+
+# class CreateProject(CreateView):    # CreateView parameter will allow the user to create a new object
+#     model = models.Project          # takes the Project model fields to create a form.
+#     template_name = 'application/project__form.html'    # head over to this template after CreateProject class is invoked.
+#     fields = ['title', 'description', 'demo_link', 'source_link', 'tags']   # only take these views.
+#     success_url = 'projects'        # after succesfully submission of form head over to this url.
+
+# Update View
+
+# class UpdateProject(UpdateView):
+#     model = models.Project
+#     template_name = 'application/project__form.html'
+#     fields = ['title', 'description', 'demo_link', 'source_link', 'tags']
+#     success_url = '/projects'
+
+# Delete View
+# class DeleteProject(DeleteView):
+#     template_name = 'application/confirm__delete.html'
+#     success_url = '/projects'

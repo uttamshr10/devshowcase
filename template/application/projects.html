@@ -3,21 +3,23 @@
 <h1>Projects</h1>
 <table>
     <tr>
-        <th>ID</th>
         <th>Project</th>
         <th>Positive Votes</th>
         <th>Total Votes</th>
         <th></th>
         <th></th>
+        <th></th>
+        <th></th>
     </tr>
     {% for project in projects %}
     <tr>
-        <td>{{project.id}}</td>
         <td>{{project.title}}</td>
         <td>{{project.vote_ratio}}%</td>
         <td>{{project.vote_ratio}}</td>
         <td>{{project.created}}</td>
         <td><a href=" {% url 'project' project.pk %} ">View</a></td>
+        <td><a href=" {% url 'update' project.pk %} ">Edit</a></td>
+        <td><a href=" {% url 'delete' project.pk %} ">Delete</a></td>
     </tr>
     {% endfor %}
 </table>
