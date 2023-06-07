@@ -21,7 +21,8 @@ def project(request, pk):   # detail view
 def createProject(request):     # create view
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
-        form = forms.ProjectForm(request.POST)  # when the request is POST take the form to accept POST request.  
+        form = forms.ProjectForm(request.POST, request.FILES)  # when the request is POST take the form to accept POST request.  
+        # with request.FILES user will be able to accept files in POST request.
         if form.is_valid():     # checks if the form is valid
             form.save()     # save the instance to the database if the form is valid.
             return redirect('projects') # redirect to projects url after saving the form.
@@ -34,7 +35,7 @@ def updateProject(request, pk): # update view
     project = models.Project.objects.get(pk=pk) # retrieve single project object from the db using it's pk.
     form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
     if request.method == 'POST':    # if the method is POST
-        form = forms.ProjectForm(request.POST, instance = project) # with POST request prepopulate the data.
+        form = forms.ProjectForm(request.POST, request.FILES, instance = project) # with POST request prepopulate the data.
         if form.is_valid:
             form.save()
             return redirect('projects')

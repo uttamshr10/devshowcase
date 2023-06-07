@@ -124,10 +124,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/images/'  # deals with the URL generated content
 
-STATICFILES_DIRS = [
+STATICFILES_DIRS = [    # where to look for static files (css, js and images)
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')  # where to upload user generated content
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

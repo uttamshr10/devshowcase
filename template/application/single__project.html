@@ -1,7 +1,9 @@
 {% extends 'application/main.html' %}
 
-
 {% block content %}
+
+<img style="width: 800px;" src="{{ project.project_image.url  }}" alt="Project-image">
+
 <h1>{{project.title}}</h1>
 <hr>
 {% for tag in project.tags.all %}   <!-- Check single project all tags from (views.py) - project function - project context -->

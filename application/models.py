@@ -5,6 +5,7 @@ import uuid
 class Project (models.Model):
     title = models.CharField(max_length = 200)
     description = models.TextField(blank = True, null = True)
+    project_image = models.ImageField(blank = True, null = True, default = "default.jpg")
     demo_link = models.CharField(max_length=2000, blank = True, null = True)
     source_link = models.CharField(max_length = 2000, blank = True, null = True)
     tags = models.ManyToManyField('Tag', blank = True)  # it lets user select content of Tag table.
