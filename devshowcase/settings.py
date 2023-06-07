@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",   # to handle static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -130,7 +131,8 @@ STATICFILES_DIRS = [    # where to look for static files (css, js and images)
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')  # where to upload user generated content
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')    # where to upload user generated content
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')     # where our static files will come from during production
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
