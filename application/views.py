@@ -22,7 +22,7 @@ def createProject(request):     # create view
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
         form = forms.ProjectForm(request.POST, request.FILES)  # when the request is POST take the form to accept POST request.  
-        # with request.FILES user will be able to accept files in POST request.
+        # with request.FILES user will be able to add files in POST request.
         if form.is_valid():     # checks if the form is valid
             form.save()     # save the instance to the database if the form is valid.
             return redirect('projects') # redirect to projects url after saving the form.

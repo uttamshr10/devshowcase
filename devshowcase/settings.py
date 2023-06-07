@@ -124,7 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL = '/images/'  # deals with the URL generated content
+MEDIA_URL = '/images/'  # deals with the URL of user generated content
 
 STATICFILES_DIRS = [    # where to look for static files (css, js and images)
     os.path.join(BASE_DIR, 'static')
