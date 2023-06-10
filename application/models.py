@@ -5,14 +5,14 @@ import uuid
 class Project (models.Model):
     title = models.CharField(max_length = 200)
     description = models.TextField(blank = True, null = True)
-    project_image = models.ImageField(blank = True, null = True, default = "default.jpg")
+    project_image = models.ImageField(blank = True, null = True, default = "default.jpg") # to add images to the DB.
     demo_link = models.CharField(max_length=2000, blank = True, null = True)
     source_link = models.CharField(max_length = 2000, blank = True, null = True)
     tags = models.ManyToManyField('Tag', blank = True)  # it lets user select content of Tag table.
     vote_total = models.IntegerField(default = 0, null = True, blank = True)
     vote_ratio = models.IntegerField(default = 0, null = True, blank = True)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False) # generate random unique id
 
     def __str__(self):
         return self.title
@@ -36,7 +36,7 @@ class Review(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length = 200)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable = False)
+    id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable = False) # generate random unique ID 
 
     def __str__(self):
         return self.name

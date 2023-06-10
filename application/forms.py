@@ -9,7 +9,7 @@ class ProjectForm(ModelForm):   # model form that creates the form out of model.
         widgets = {
             'tags': forms.CheckboxSelectMultiple(),  # making the tags field a checkbox to select multiple options
         }
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # overriding this method
         super(ProjectForm, self).__init__(*args, **kwargs)
 
         # to change the attribute of every form field.
