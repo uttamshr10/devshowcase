@@ -6,6 +6,7 @@ from django.conf.urls.static import static # create url of static file
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('application.urls')),
+    path('users/', include('users.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)   # grab MEDIA_URL and connect it to MEDIA_ROOT
