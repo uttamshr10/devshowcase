@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns=[
     # urls for function based views
-    path("projects/", views.projects, name="projects"),    # list view
+    path("", views.projects, name="projects"),    # list view
     path("project/<str:pk>/", views.project, name="project"),   # detail view 
     path("create-project/", views.createProject, name = "create"),   # create view
     path("update-project/<str:pk>/", views.updateProject, name = 'update'),  # update view
