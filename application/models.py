@@ -1,8 +1,10 @@
 from django.db import models
 import uuid
+from users.models import Profile
 
 # Create your models here.
 class Project (models.Model):
+    owner = models.ForeignKey(Profile, blank = True, null = True, on_delete = models.SET_NULL )  # Create the owner for the project and don't delete the project when the user id is deleted by any circumstances.
     title = models.CharField(max_length = 200)
     description = models.TextField(blank = True, null = True)
     project_image = models.ImageField(blank = True, null = True, default = "default.jpg") # to add images to the DB.
