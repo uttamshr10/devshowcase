@@ -19,6 +19,10 @@ img {
   margin-right: 0.5rem;
 }
 
+.fa-brands, .fa-solid{
+  font-size: 30px;
+}
+
 .content-box {
   width: 95%;
   max-width: 85rem;

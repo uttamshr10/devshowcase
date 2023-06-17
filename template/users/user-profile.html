@@ -14,18 +14,18 @@
               <p class="dev__location">Based in {{profile.location}}</p>
               <ul class="dev__social">
                 {% if profile.social_github %}
-                <li> <!-- fix icon issue of socials-->
-                  <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="im im-github"></i></a>
+                <li>
+                  <a title="Github" href="{{profile.social_github}}" target="_blank"><i class="fa-brands fa-github"></i></a>
                 </li>
                 {% endif %}
-                {% if social_linkedin %}
-                <li>    <!-- fix icon issue of socials-->
-                  <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i class="im im-linkedin"></i></a>
+                {% if profile.social_linkedin %}
+                <li>
+                  <a title="LinkedIn" href="{{profile.social_linkedin}}" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
                 </li>
                 {% endif %}
-                {% if social_website %}
-                <li>    <!-- fix icon issue of socials-->
-                  <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i class="im im-globe"></i></a>
+                {% if profile.social_website %}
+                <li>
+                  <a title="Personal Website" href="{{profile.social_website}}" target="_blank"><i class="fa-solid fa-earth-asia"></i></a>
                 </li>
                 {% endif %}
               </ul>
@@ -63,7 +63,7 @@
           <div class="devInfo">
             <h3 class="devInfo__title">Projects</h3>
             <div class="grid grid--two">
-              {% for project in profile.project_set.all %}
+              {% for project in profile.project_set.all %} <!-- iterate through each individual project of the profile. --> 
               <div class="column">
                 <div class="card project">
                   <a href="{% url 'project' project.id %}" class="project">
