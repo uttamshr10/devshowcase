@@ -1,12 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
-from django.db.models.signals import post_save, post_delete # for django signals.
-from django.dispatch import receiver
-# Create your models here.
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null = True, blank = True)  # User has one to one relationship with their Profile means user can create only one Profile.
+    # Also, when User is deleted also delete Profile.
     name = models.CharField(max_length = 100, blank = True, null = True)
     email = models.EmailField(max_length = 50, blank = True, null = True)
     username = models.CharField(max_length = 20, blank = True, null = True)
@@ -35,19 +33,3 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
-
-@receiver(post_save, sender=Profile) # this is similar to post_save.connect()
-def updatedProfile(sender, instance, created, **kwargs):
-    print("Profile updated.")
-    print("Instance: ", instance)   # prints instance of the profile.
-    print("Sender: ", sender) # prints object of sender i.e users.models.Profile
-    print("Created: ", created) # prints True if new profile is created else print False
-
-@receiver(post_delete, sender=Profile)
-def deleteProfile(sender, instance, **kwargs):
-    print("Deleting...")
-    print("Instance", instance) # prints user i.e instance in console.
-
-# post_save.connect(updatedProfile, sender=Profile) # trigger updateProfile when sender -> Profile model is called. 
-
-# post_delete.connect(deleteProfile, sender=Profile) # trigger deleteProfile when Profile model is deleted.
