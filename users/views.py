@@ -1,5 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from users import models
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+
+def loginPage(request):
+    if request.method == "POST":    # when request method is POST
+        username = request.POST['username'] # store the username sent as a POST method.
+        password = request.POST['password'] # store the passord sent as a POST method.
+        try:
+            user = User.objects.get(username=username)  # first level authentication, checking username.
+        except:
+            print("Username doesn't exist.")    # execute if the username doesn't exist.
+        
+        user = authenticate(request, username = username, password = password) # check whether the username and password matches with the username and password provided.
+        if user:
+            return redirect("profiles") # if the credentials are correct, redirect to profiles.
+        else:
+            print("Credential incorrect.")  # if the credentials are incorrect, either one or both.
+
+    return render(request, 'users/register.html')
 
 def Profile(request):   
     profiles = models.Profile.objects.all() # query all the profiles and store in profiles.
