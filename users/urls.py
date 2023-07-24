@@ -4,7 +4,8 @@ from users import views
 
 urlpatterns = [
     path('', views.Profile, name= 'profiles'),
-    path('register/', views.loginPage, name='register'),
+    path('login/', views.loginPage, name='login'),
     path('logout/', views.logoutPage, name = 'logout'),
+    path('register/', views.registerPage, name='register'),
     path('profile/<str:pk>/', views.userProfile, name = 'user-profile'),
 ]

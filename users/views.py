@@ -1,9 +1,37 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from users import models
+from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+def registerPage(request):
+    page = 'register'
+    form = CustomUserCreationForm()   # default form of django
+    if request.method=="POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)  # saving the instance of form.
+            user.username = user.username.lower() # lowercasing the username.
+            user.save() # save the user detail.
+
+            messages.success(request, "Successfully registered.") # show success flash message
+            login(request, user)
+            return redirect('profiles') # after successfully registered head over to user profiles. 
+        
+        else:
+            messages.success(request, "User cannot be registered.")
+
+
+    context={
+        'page' : page,
+        'form': form,
+    }
+
+    return render(request, 'users/loginandregister.html', context)
+
 def loginPage(request):
+    page='login'
     if request.user.is_authenticated:
         return redirect('profiles')
     
@@ -13,20 +41,21 @@ def loginPage(request):
         try:
             user = User.objects.get(username=username)  # first level authentication, checking username.
         except:
-            print("Username doesn't exist.")    # execute if the username doesn't exist.
+            messages.error(request, "Username doesn't exist.")    # execute if the username doesn't exist.
         
         user = authenticate(request, username = username, password = password) # check whether the username and password matches with the username and password provided.
         if user:
             login(request, user) # to add session to the browser's cookie.
             return redirect("profiles") # if the credentials are correct, redirect to profiles.
         else:
-            print("Credential incorrect.")  # if the credentials are incorrect, either one or both.
+            messages.error(request, "Credential incorrect.")  # if the credentials are incorrect, either one or both.
 
-    return render(request, 'users/register.html')
+    return render(request, 'users/loginandregister.html')
 
 def logoutPage(request):
     logout(request)
-    return redirect("register")
+    messages.error(request, "Logout successfully.") # shows logged out message when user is logged out.
+    return redirect("profiles")
 
 def Profile(request):   
     profiles = models.Profile.objects.all() # query all the profiles and store in profiles.

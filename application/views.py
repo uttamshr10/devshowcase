@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
+from django.contrib.auth.decorators import login_required
 from . import forms
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
@@ -17,7 +18,7 @@ def project(request, pk):   # detail view
     }
     return render(request, 'application/single__project.html', context)
 
-
+@login_required(login_url="login")
 def createProject(request):     # create view
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
@@ -31,6 +32,7 @@ def createProject(request):     # create view
     }
     return render(request, 'application/project__form.html', context)
 
+@login_required(login_url="login")
 def updateProject(request, pk): # update view
     project = models.Project.objects.get(pk=pk) # retrieve single project object from the db using it's pk.
     form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
@@ -42,7 +44,7 @@ def updateProject(request, pk): # update view
     context = {'form': form}
     return render(request, 'application/project__form.html', context)
 
-
+@login_required(login_url="login")
 def deleteProject(request, pk): # delete view
     project = models.Project.objects.get(pk=pk)
     if request.method == 'POST':
