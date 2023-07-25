@@ -54,8 +54,8 @@ def loginPage(request):
 
 def logoutPage(request):
     logout(request)
-    messages.error(request, "Logout successfully.") # shows logged out message when user is logged out.
-    return redirect("profiles")
+    messages.info(request, "Logout successfully.") # shows logged out message when user is logged out.
+    return redirect("login")
 
 def Profile(request):   
     profiles = models.Profile.objects.all() # query all the profiles and store in profiles.
