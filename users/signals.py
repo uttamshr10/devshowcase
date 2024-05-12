@@ -34,6 +34,16 @@ def createdProfile(sender, instance, created, **kwargs):   # what to do when use
 
 post_save.connect(createdProfile, sender=User)  # When the user is created connect the post_save signal with createdProfile function.
 
+def updateUser(sender, instance, created, **kwargs):
+    profile = instance
+    user = profile.user
+    if created == False:
+        user.first_name = profile.name
+        user.username = profile.username
+        user.email = profile.email
+        user.save()
+
+post_save.connect(updateUser, sender=Profile)
 
 # When user is deleted from user table, it will remove profile from the table because of models.CASCADE in Profile model.
 # we have a problem now when the admin deleted profile only user will not be deleted.

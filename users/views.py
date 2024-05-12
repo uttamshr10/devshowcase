@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from users import models
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -18,10 +18,10 @@ def registerPage(request):
 
             messages.success(request, "Successfully registered.") # show success flash message
             login(request, user)
-            return redirect('profiles') # after successfully registered head over to user profiles. 
+            return redirect('edit-account') # after successfully registered head over to user profiles. 
         
         else:
-            messages.success(request, "User cannot be registered.")
+            messages.error(request, "User cannot be registered.")
 
 
     context={
@@ -88,3 +88,19 @@ def userAccount(request):
         'projects': projects
     }
     return render(request, 'users/account.html', context)
+
+
+@login_required(login_url='login')
+def editAccount(request):
+    profile = request.user.profile
+    form = ProfileForm(instance = profile)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance = profile)
+        if form.is_valid():
+            form.save()
+            return redirect('account')
+
+    context = {
+        'form': form
+    }
+    return render(request, 'users/profile_form.html', context)

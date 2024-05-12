@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from users import models
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -16,3 +17,15 @@ class CustomUserCreationForm(UserCreationForm):
         # to change the attribute of every form field.
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})   # with this we can loop and give class to multiple form fields.
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = models.Profile
+        fields = ['name', 'email', 'username', 'short_intro', 'location', 'bio', 'profile_image', 'social_github', 'social_linkedin', 'social_website']
+
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
