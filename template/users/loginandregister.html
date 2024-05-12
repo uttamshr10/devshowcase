@@ -8,7 +8,7 @@
     <div class="card">
       <div class="auth__header text-center">
         <a href="/">
-          <img src="{% static 'images/icon.png' %}" alt="icon" />
+          <img src="{% static 'images/favicon.png' %}" width="80", height="80" style="padding: 0px; margin-top: 10px;" alt="icon" />
         </a>
         <h3>Register an Account</h3>
         <p>Create a new developer account</p>
@@ -16,7 +16,6 @@
 
       <form action="{% url 'register' %}" method="POST" class="form auth__form">
         {% csrf_token %}
-        <!-- Input:Text -->
         {% for field in form %}
             <div class="form__field">
                 <label for="formInput#text">{{field.label}}</label>
@@ -46,10 +45,10 @@
 {% else %}
 
 <div class="auth">
-    <div class="card">
+    <div class="card" style="padding-top: 5px;">
       <div class="auth__header text-center">
         <a href="{% url 'login' %}">
-          <img src="{% static 'images/icon.png' %}" style="width:50px; height:50px; margin:auto; padding: auto;" alt="icon" />
+          <img src="{% static 'images/favicon.png' %}" width="80", height="80" style="padding: 0px; margin-top: 10px;" alt="icon" />
         </a>
         <h3>Account Login</h3>
         <p>Hello Developer, Welcome Back!</p>
