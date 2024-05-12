@@ -3,6 +3,7 @@ from django.contrib import messages
 from users import models
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
 def registerPage(request):
@@ -75,3 +76,15 @@ def userProfile(request, pk):
         'otherSkills': otherSkills
     }
     return render(request, 'users/user-profile.html', context)
+
+@login_required(login_url = 'login')
+def userAccount(request):
+    profile = request.user.profile
+    skills = profile.skill_set.all()
+    projects = profile.project_set.all()
+    context = {
+        'profile': profile,
+        'skills': skills,
+        'projects': projects
+    }
+    return render(request, 'users/account.html', context)
