@@ -20,12 +20,15 @@ def project(request, pk):   # detail view
 
 @login_required(login_url="login")
 def createProject(request):     # create view
+    profile = request.user.profile
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
         form = forms.ProjectForm(request.POST, request.FILES)  # when the request is POST take the form to accept POST request.  
         # with request.FILES user will be able to add files in POST request.
         if form.is_valid():     # checks if the form is valid
-            form.save()     # save the instance to the database if the form is valid.
+            project = form.save(commit=False)
+            project.owner = profile
+            project.save() # save the instance to the database if the form is valid.
             return redirect('projects') # redirect to projects url after saving the form.
     context = {
         'form': form    # form will be used in templates to create a form.
@@ -34,7 +37,8 @@ def createProject(request):     # create view
 
 @login_required(login_url="login")
 def updateProject(request, pk): # update view
-    project = models.Project.objects.get(pk=pk) # retrieve single project object from the db using it's pk.
+    profile = request.user.profile # getting the profile of logged in user
+    project = profile.project_set.get(pk=pk) # retrieve the single project object of that logged in user from the db using it's pk.
     form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
     if request.method == 'POST':    # if the method is POST
         form = forms.ProjectForm(request.POST, request.FILES, instance = project) # with POST request prepopulate the data.
@@ -46,7 +50,8 @@ def updateProject(request, pk): # update view
 
 @login_required(login_url="login")
 def deleteProject(request, pk): # delete view
-    project = models.Project.objects.get(pk=pk)
+    profile = request.user.profile
+    project = profile.project_set.get(pk=pk)
     if request.method == 'POST':
         project.delete()    # deletes the project from the database.
         return redirect('projects')
