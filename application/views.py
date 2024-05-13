@@ -29,7 +29,7 @@ def createProject(request):     # create view
             project = form.save(commit=False)
             project.owner = profile
             project.save() # save the instance to the database if the form is valid.
-            return redirect('projects') # redirect to projects url after saving the form.
+            return redirect('account') # redirect to projects url after saving the form.
     context = {
         'form': form    # form will be used in templates to create a form.
     }
@@ -44,7 +44,7 @@ def updateProject(request, pk): # update view
         form = forms.ProjectForm(request.POST, request.FILES, instance = project) # with POST request prepopulate the data.
         if form.is_valid:
             form.save()
-            return redirect('projects')
+            return redirect('account')
     context = {'form': form}
     return render(request, 'application/project__form.html', context)
 
@@ -54,7 +54,7 @@ def deleteProject(request, pk): # delete view
     project = profile.project_set.get(pk=pk)
     if request.method == 'POST':
         project.delete()    # deletes the project from the database.
-        return redirect('projects')
+        return redirect('account')
     context = {'object': project}   # project is defined as object variable which can be used to identify the project in confirm__delete
     return render(request, 'application/confirm__delete.html', context)
 

@@ -43,7 +43,7 @@
           </div>
           <div class="settings">
             <h3 class="settings__title">Skills</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href=""><i class="fa-solid fa-plus"></i> Add Skill</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create-skill' %}"><i class="fa-regular fa-plus" style="padding-right: 4px;"></i> Add Skill</a>
           </div>
   
           <table class="settings__table">
@@ -56,8 +56,8 @@
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href=""><i class="fa-regular fa-pen-to-square"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href=""><i class="fa-regular fa-circle-xmark" style="padding: 4px;"></i>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'update-skill' skill.id %}"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href="{% url 'delete-skill' skill.id %}?next=/account"><i class="fa-regular fa-circle-xmark" style="padding: 4px;"></i>
                   Delete</a>
               </td>
             </tr>
@@ -66,7 +66,7 @@
   
           <div class="settings">
             <h3 class="settings__title">Projects</h3>
-            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create' %}"><i class="fa-solid fa-plus"></i> Add Project</a>
+            <a class="tag tag--pill tag--sub settings__btn tag--lg" href="{% url 'create' %}"><i class="fa-regular fa-plus" style="padding-right: 4px;"></i> Add Project</a>
           </div>
   
           <table class="settings__table">
@@ -82,7 +82,7 @@
               <td class="settings__tableActions">
                 <a class="tag tag--pill tag--main settings__btn" href="{% url 'update' project.id %}"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
                 <a class="tag tag--pill tag--main settings__btn"
-                  href="{% url 'delete' project.id %}"><i class="fa-regular fa-circle-xmark" style="padding: 4px;"></i>
+                  href="{% url 'delete' project.id %}?next=/account"><i class="fa-regular fa-circle-xmark" style="padding: 4px;"></i>
                   Delete</a>
               </td>
             </tr>
