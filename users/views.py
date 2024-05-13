@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 
 def registerPage(request):
     page = 'register'
@@ -68,7 +70,21 @@ def Profile(request):
     profiles = models.Profile.objects.distinct().filter(Q(name__icontains=search_query) | 
     Q(short_intro__icontains = search_query) | 
     Q(skill__in=skills)) # filter the profile which contains name, title and skills and store in profiles.
-    context = {'profiles': profiles, 'search_query': search_query}    # set profiles [key] and profiles [value] to use in template later.
+    
+    page = request.GET.get('page')
+    results = 3
+    paginator = Paginator(profiles, results)
+    try:
+        profiles = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        profiles = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        profiles = paginator.page(page)
+    
+    
+    context = {'profiles': profiles, 'search_query': search_query, 'paginator': paginator}    # set profiles [key] and profiles [value] to use in template later.
     return render(request, 'users/profiles.html', context)  # pass context to use those variables in template.
 
 

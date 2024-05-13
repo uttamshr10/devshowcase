@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from . import models
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from . import forms
 from django.db.models import Q 
 # from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -17,7 +17,20 @@ def projects(request):  # list view
     Q(description__icontains = search_query) |
     Q(owner__name__icontains = search_query) |
     Q(tags__in = tags)) # quering all the projects by it's title or tagname and storing in projects
-    context = {'projects': projects, 'search_query' : search_query}
+    
+    page = request.GET.get('page')
+    results = 3
+    paginator = Paginator(projects, results)
+    try:
+        projects = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        projects = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        projects = paginator.page(page)
+    
+    context = {'projects': projects, 'search_query' : search_query, 'paginator': paginator}
     return render(request, 'application/projects.html', context)
 
 def project(request, pk):   # detail view

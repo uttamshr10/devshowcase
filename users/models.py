@@ -23,6 +23,9 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user.username)
     
+    class Meta:
+        ordering = ['created']
+    
 
 class Skill(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, blank = True, null = True) # when Profile is deleted, delete skill too.
