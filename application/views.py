@@ -3,12 +3,21 @@ from django.http import HttpResponse
 from . import models
 from django.contrib.auth.decorators import login_required
 from . import forms
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.db.models import Q 
+# from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 # Create your views here.
 def projects(request):  # list view
-    projects = models.Project.objects.all() # quering all the projects and storing in projects
-    context = {'projects': projects}
+    search_query = ''
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query')
+
+    tags = models.Tag.objects.filter(name__icontains = search_query)
+    projects = models.Project.objects.distinct().filter(Q(title__icontains = search_query) | 
+    Q(description__icontains = search_query) |
+    Q(owner__name__icontains = search_query) |
+    Q(tags__in = tags)) # quering all the projects by it's title or tagname and storing in projects
+    context = {'projects': projects, 'search_query' : search_query}
     return render(request, 'application/projects.html', context)
 
 def project(request, pk):   # detail view

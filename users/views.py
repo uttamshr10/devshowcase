@@ -3,6 +3,7 @@ from django.contrib import messages
 from users import models
 from .forms import CustomUserCreationForm, ProfileForm, SkillForm
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
@@ -59,8 +60,15 @@ def logoutPage(request):
     return redirect("login")
 
 def Profile(request):   
-    profiles = models.Profile.objects.all() # query all the profiles and store in profiles.
-    context = {'profiles': profiles}    # set profiles [key] and profiles [value] to use in template later.
+    search_query = '' # set the search query to empty string
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query') # get the search query and store inside search query
+    
+    skills = models.Skill.objects.filter(name__icontains = search_query)
+    profiles = models.Profile.objects.distinct().filter(Q(name__icontains=search_query) | 
+    Q(short_intro__icontains = search_query) | 
+    Q(skill__in=skills)) # filter the profile which contains name, title and skills and store in profiles.
+    context = {'profiles': profiles, 'search_query': search_query}    # set profiles [key] and profiles [value] to use in template later.
     return render(request, 'users/profiles.html', context)  # pass context to use those variables in template.
 
 
