@@ -16,6 +16,21 @@ class ProjectForm(ModelForm):   # model form that creates the form out of model.
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})   # with this we can loop and give class to multiple form fields.
 
+class ReviewForm(ModelForm):
+    class Meta:
+        model = models.Review
+        fields = ['value', 'body']
+        labels = {
+            'value': 'Place your vote',
+            'body': 'Add a comment with your vote'
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'input'})
+
 
         # to change the attribute of the field, any HTML attribute.
         # self.fields['title'].widget.attrs.update({'class':'input', 'placeholder': 'Your title here.'})

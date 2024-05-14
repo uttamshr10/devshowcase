@@ -18,6 +18,25 @@ class Project (models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        ordering = ['-vote_ratio', '-vote_total', 'title']
+
+    @property
+    def reviewers(self):
+        queryset = self.review_set.all().values_list('owner__id', flat=True)
+        return queryset
+
+    @property
+    def getVoteCount(self):
+        reviews = self.review_set.all()
+        upVotes = reviews.filter(value='up').count()
+        totalVotes = reviews.count()
+        ratio = (upVotes / totalVotes) * 100
+        self.vote_total= totalVotes
+        self.vote_ratio = ratio
+        self.save()
+    
 
 class Review(models.Model):
     # let the user vote
@@ -25,12 +44,16 @@ class Review(models.Model):
         ('up', 'Up Vote'),
         ('down', 'Down Vote')
     )
-    project = models.ForeignKey('Project', on_delete=models.CASCADE) # user can select the project which they want to review
+    owner = models.ForeignKey(Profile, on_delete = models.CASCADE, null = True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE) # user can select the project which they want to review
     body = models.TextField(blank=True, null = True)
     value = models.CharField(max_length = 20, choices=VOTE_TYPE)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable = False) # generate a random UUID as the default value.
     # UUID are used to identify records in a database.
+
+    class Meta:
+        unique_together = [['owner', 'project']]
 
     def __str__(self):
         return self.value

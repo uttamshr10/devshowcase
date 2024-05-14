@@ -35,8 +35,20 @@ def projects(request):  # list view
 
 def project(request, pk):   # detail view
     projectObj = models.Project.objects.get(id=pk) # retrieve single project object from the db using it's pk.
+    form = forms.ReviewForm()
+
+    if request.method == 'POST':
+        form = forms.ReviewForm(request.POST)
+        review = form.save(commit=False)
+        review.project = projectObj
+        review.owner = request.user.profile
+        review.save()
+        projectObj.getVoteCount
+        return redirect('project', pk = projectObj.id)
+
     context = {
-        'project': projectObj
+        'project': projectObj,
+        'form': form
     }
     return render(request, 'application/single__project.html', context)
 

@@ -40,7 +40,7 @@ def loginPage(request):
         return redirect('profiles')
     
     if request.method == "POST":    # when request method is POST
-        username = request.POST['username'] # store the username sent as a POST method.
+        username = request.POST['username'].lower() # store the username sent as a POST method.
         password = request.POST['password'] # store the passord sent as a POST method.
         try:
             user = User.objects.get(username=username)  # first level authentication, checking username.
@@ -50,7 +50,9 @@ def loginPage(request):
         user = authenticate(request, username = username, password = password) # check whether the username and password matches with the username and password provided.
         if user:
             login(request, user) # to add session to the browser's cookie.
-            return redirect("profiles") # if the credentials are correct, redirect to profiles.
+            return redirect(
+                request.GET['next'] if 'next' in request.GET else 'account'  
+            ) # if the credentials are correct, redirect to profiles.
         else:
             messages.error(request, "Credential incorrect.")  # if the credentials are incorrect, either one or both.
 
