@@ -4,4 +4,5 @@ from users import models
 admin.site.register([
     models.Profile,
     models.Skill,
+    models.Message,
 ])
