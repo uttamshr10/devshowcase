@@ -21,7 +21,7 @@ def registerPage(request):
 
             messages.success(request, "Successfully registered.") # show success flash message
             login(request, user)
-            return redirect('edit-account') # after successfully registered head over to user profiles. 
+            return redirect('edit-account') # after successfully registered head over to edit account. 
         
         else:
             messages.error(request, "User cannot be registered.")

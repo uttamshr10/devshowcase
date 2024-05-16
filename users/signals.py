@@ -2,6 +2,8 @@ from django.db.models.signals import post_save, post_delete # for django signals
 from django.dispatch import receiver # decorators for signals.
 from django.contrib.auth.models import User
 from users.models import Profile
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # For reference.
@@ -31,6 +33,18 @@ def createdProfile(sender, instance, created, **kwargs):   # what to do when use
             username = user.username,   # fill profile table with user's username when new user is created.
             email = user.email,         # fill profile table with user's email when new user is created.
         )
+        
+        subject = 'Welcome to Devshowcase'
+        message = 'We are happy to see you'
+
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [profile.email],
+            fail_silently=False
+        )
+
 
 post_save.connect(createdProfile, sender=User)  # When the user is created connect the post_save signal with createdProfile function.
 
