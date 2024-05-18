@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/', include('application.urls')),
     path('', include('users.urls')),
+    path('api/', include('api.urls')),
     # User submits email for reset
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name = 'auth/reset_password.html'), name = 'reset_password'),
     # Reset email sent to the user
