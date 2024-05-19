@@ -4,11 +4,13 @@ from django.conf import settings # accessing settings.py
 from django.conf.urls.static import static # create url of static file
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('projects/', include('application.urls')),
     path('', include('users.urls')),
     path('api/', include('api.urls')),
+
     # User submits email for reset
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name = 'auth/reset_password.html'), name = 'reset_password'),
     # Reset email sent to the user
