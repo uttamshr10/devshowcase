@@ -64,7 +64,9 @@ post_save.connect(updateUser, sender=Profile)
 
 # delete user when profile is deleted.
 def deleteUser(sender, instance, **kwargs):     # on deleting profile delete user too.
-    user = instance.user        # take the instance of Profile user.
-    user.delete()               # delete user
-
+    try:
+        user = instance.user        # take the instance of Profile user.
+        user.delete()               # delete user
+    except:
+        pass
 post_delete.connect(deleteUser, sender=Profile) # when the Profile is deleted connect the post_delete with deleteUser function.

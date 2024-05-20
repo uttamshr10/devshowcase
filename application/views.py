@@ -57,12 +57,16 @@ def createProject(request):     # create view
     profile = request.user.profile
     form = forms.ProjectForm()  # takes ProjectForm class from forms.py and store as form
     if request.method == 'POST':    # first checks whether the request is POST or not.
+        newtags = request.POST.get('newtags').replace(',', " ").split()
         form = forms.ProjectForm(request.POST, request.FILES)  # when the request is POST take the form to accept POST request.  
         # with request.FILES user will be able to add files in POST request.
         if form.is_valid():     # checks if the form is valid
             project = form.save(commit=False)
             project.owner = profile
             project.save() # save the instance to the database if the form is valid.
+            for tag in newtags:
+                tag, created = models.Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             return redirect('account') # redirect to projects url after saving the form.
     context = {
         'form': form    # form will be used in templates to create a form.
@@ -74,12 +78,16 @@ def updateProject(request, pk): # update view
     profile = request.user.profile # getting the profile of logged in user
     project = profile.project_set.get(pk=pk) # retrieve the single project object of that logged in user from the db using it's pk.
     form = forms.ProjectForm(instance = project) # form will be pre-populated with the existing data from that object.
-    if request.method == 'POST':    # if the method is POST
+    if request.method == 'POST':    # if the method is 
+        newtags = request.POST.get('newtags').replace(',', " ").split()
         form = forms.ProjectForm(request.POST, request.FILES, instance = project) # with POST request prepopulate the data.
         if form.is_valid:
-            form.save()
+            project = form.save()
+            for tag in newtags:
+                tag, created = models.Tag.objects.get_or_create(name=tag)
+                project.tags.add(tag)
             return redirect('account')
-    context = {'form': form}
+    context = {'form': form, 'project': project}
     return render(request, 'application/project__form.html', context)
 
 @login_required(login_url="login")

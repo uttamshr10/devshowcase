@@ -5,7 +5,7 @@ from django import forms
 class ProjectForm(ModelForm):   # model form that creates the form out of model.
     class Meta:                 # meta class takes two parameters model and fields.
         model = models.Project  # create a form out of Project model
-        fields = ['title', 'project_image', 'description', 'demo_link', 'source_link', 'tags']      # selecting all the fields
+        fields = ['title', 'project_image', 'description', 'demo_link', 'source_link']      # selecting all the fields
         widgets = {
             'tags': forms.CheckboxSelectMultiple(),  # making the tags field a checkbox to select multiple options
         }
