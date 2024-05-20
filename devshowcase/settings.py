@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',   # always use this rather than just 'users'
     'rest_framework',
     'corsheaders',
+    'storages'
 ]
 
 REST_FRAMEWORK = {
@@ -95,6 +96,9 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -131,13 +135,23 @@ WSGI_APPLICATION = 'devshowcase.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'database-name',
+        'USER': 'aws-username',
+        'PASSWORD': 'aws-password',
+        'HOST': 'aws-host-link',
+        'PORT': 5432
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -194,5 +208,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'utam.shrestha65@gmail.com'
-EMAIL_HOST_PASSWORD = 'akytzwktspjoxuvh'
+EMAIL_HOST_USER = 'email'
+EMAIL_HOST_PASSWORD = 'password'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+
+AWS_ACCESS_KEY_ID = 'aws-access-key'
+AWS_SECRET_ACCESS_KEY = 'aws-secret-access-key'
+AWS_STORAGE_BUCKET_NAME = 'devshowcase-bucket'
