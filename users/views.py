@@ -52,10 +52,9 @@ def loginPage(request):
             login(request, user) # to add session to the browser's cookie.
             return redirect(
                 request.GET['next'] if 'next' in request.GET else 'account'  
-            ) # if the credentials are correct, redirect to profiles.
+            ) # if the credentials are correct, redirect to account.
         else:
             messages.error(request, "Credential incorrect.")  # if the credentials are incorrect, either one or both.
-
     return render(request, 'users/loginandregister.html')
 
 def logoutPage(request):
