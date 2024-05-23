@@ -1,0 +1,1 @@
+web: gunicorn devshowcase.wsgi --log-file -
