@@ -34,7 +34,7 @@ SECRET_KEY = 'DKFJASDKLFJAKLDSJFKLJADSLFJLASJDLF'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1', 'devshowcase-25da3d4c34f9.herokuapp.com'
+    'localhost', '127.0.0.1', 'dev-showcase-e011d76f45c9.herokuapp.com'
 ]
 
 
